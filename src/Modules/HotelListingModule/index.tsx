@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect} from 'react';
-import {Linking, Text, View} from 'react-native';
+import {ActivityIndicator, Linking, Text, View} from 'react-native';
 import {HotelListingProps} from './types';
 import HeaderComponent from '../../CommonComponents/Header/HeaderComponent';
 import {AppContext} from '../../Context/AppContext';
@@ -10,10 +10,20 @@ const HotelListing: React.FC<HotelListingProps> = (
   props,
   {deeplinkDate = null, deeplinkLocation = null},
 ) => {
-  const {location, date, getHotelList, hotelList} = useContext(AppContext);
+  const {
+    location,
+    date,
+    getHotelList,
+    hotelList,
+    makePaginatedCall,
+    resetListValues,
+  } = useContext(AppContext);
 
   useEffect(() => {
     getHotelList(location);
+    return () => {
+      resetListValues();
+    };
   }, []);
 
   const handleGoBack = useCallback(() => {
@@ -39,6 +49,20 @@ const HotelListing: React.FC<HotelListingProps> = (
     );
   };
 
+  const getItemLayout = (_, index) => ({
+    length: 120,
+    offset: 120 * index,
+    index,
+  });
+
+  const renderListFooter = () => {
+    return (
+      <View>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  };
+
   return (
     <View>
       <HeaderComponent
@@ -48,7 +72,17 @@ const HotelListing: React.FC<HotelListingProps> = (
         headerTitle={location}
         subTitle={new Date(date)?.toDateString()}
       />
-      <FlatList data={hotelList} renderItem={renderHotelList} />
+      <FlatList
+        getItemLayout={getItemLayout}
+        data={hotelList}
+        renderItem={renderHotelList}
+        onEndReached={makePaginatedCall}
+        initialNumToRender={10}
+        maxToRenderPerBatch={50}
+        contentContainerStyle={{paddingBottom: 80}}
+        ListFooterComponent={renderListFooter}
+        ListEmptyComponent={renderListFooter}
+      />
     </View>
   );
 };
