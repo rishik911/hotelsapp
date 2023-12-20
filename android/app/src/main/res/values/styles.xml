@@ -1,0 +1,10 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your light/day theme here -->
+
+        <!-- Other attributes for your light theme -->
+    </style>
+
+
+</resources>
