@@ -12,6 +12,7 @@ export const HotelModuleStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   textHolder: {
+    paddingTop: 16,
     width: '80%',
   },
   iconHolder: {
@@ -26,6 +27,7 @@ export const HotelModuleStyles = StyleSheet.create({
   addressText: {
     fontSize: 14,
     fontWeight: '600',
+    paddingVertical: 4,
   },
   ratingsText: {
     fontSize: 18,

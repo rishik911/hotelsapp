@@ -31,7 +31,12 @@ const HotelListItem: React.FC<HotelListItemProps> = ({
     <View style={HotelModuleStyles.listContainer}>
       <View style={HotelModuleStyles.textHolder}>
         <Text style={HotelModuleStyles.titleText}>{hotelName}</Text>
-        <Text style={HotelModuleStyles.addressText}>{address}</Text>
+        <Text
+          style={HotelModuleStyles.addressText}
+          numberOfLines={1}
+          ellipsizeMode="tail">
+          {address}
+        </Text>
         <Text style={HotelModuleStyles.ratingsText}>
           {ratings ? `${ratings} stars -` : `0 starts -`}{' '}
           {reviews ? `${reviews} reviews` : `0 reviews`}
