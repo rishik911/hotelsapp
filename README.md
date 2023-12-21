@@ -25,7 +25,7 @@ All you need to do is...
    2. hotel listing page -- hotelsApp://hotel-listing/:location/:date
       - location --> can be any valid string
       - date --> in the format of (YYYY-MM-DD) or any valid date format
-      Example : npx uri-scheme open hotelsApp://hotel-listing/bangalore/2023-12-21  --android
+      - Example : npx uri-scheme open hotelsApp://hotel-listing/bangalore/2023-12-21  --android
 
 The core packages used for the application:
 
