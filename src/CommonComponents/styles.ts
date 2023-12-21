@@ -37,10 +37,17 @@ const ButtonStyles = StyleSheet.create({
   container: {
     width: width / 1.3,
     height: 50,
-    backgroundColor: THEME_COLOR,
+
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  buttonBackgroundOnDiabled: {
+    backgroundColor: 'gray',
+  },
+  buttonBackground: {
+    backgroundColor: THEME_COLOR,
   },
   textStyle: {
     fontSize: 22,

@@ -12,7 +12,12 @@ const Button: React.FC<ButtonProps> = ({
     <Pressable
       disabled={isDisabled}
       android_ripple={{color: 'white', borderless: false}}
-      style={ButtonStyles.container}
+      style={[
+        isDisabled
+          ? ButtonStyles.buttonBackgroundOnDiabled
+          : ButtonStyles.buttonBackground,
+        ButtonStyles.container,
+      ]}
       onPress={handleOnPress}>
       <Text style={ButtonStyles.textStyle}>{buttonTitle}</Text>
     </Pressable>
