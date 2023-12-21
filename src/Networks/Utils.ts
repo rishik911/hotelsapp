@@ -5,8 +5,7 @@ export const makeGetCall = async (endpoint: string) => {
     const response = await axios.get(endpoint);
     return response?.data || [];
   } catch (e) {
-    //handleError
-    console.log('error', JSON.stringify(e));
+    return e?.message;
   }
 };
 

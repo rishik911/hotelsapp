@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const writeToStorage = async (data: [], key = STORAGE_KEYS.WISHLIST) => {
   try {
-    console.log(data);
     await AsyncStorage.setItem(key, JSON.stringify(data));
   } catch (e) {
     return e?.message;

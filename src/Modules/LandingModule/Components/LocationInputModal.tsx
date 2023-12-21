@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import Modal from 'react-native-modal';
-import {View} from 'react-native';
+import {ActivityIndicator, Text, View} from 'react-native';
 import {AppContext} from '../../../Context/AppContext';
 import CustomInput from '../../../CommonComponents/Input';
 import {LadingStyles} from '../styles';
@@ -15,6 +15,8 @@ const LocationInputModal: React.FC<any> = ({}) => {
     updateLocationModal,
     updateLocation,
     location,
+    isError,
+    isLoading,
   } = useContext(AppContext);
 
   const renderListItem = ({item}) => {
@@ -27,6 +29,20 @@ const LocationInputModal: React.FC<any> = ({}) => {
     offset: 60 * index,
     index,
   });
+
+  const renderEmptyList = () => {
+    if (isError) {
+      return <Text>Something went wrong , please try again</Text>;
+    } else {
+      return (
+        <Text>
+          {location?.length > 0
+            ? 'No results found , retry with other area name'
+            : 'Start typing to see suggestions..'}
+        </Text>
+      );
+    }
+  };
 
   return (
     <Modal
@@ -47,14 +63,19 @@ const LocationInputModal: React.FC<any> = ({}) => {
           style={[LadingStyles.inputModal, LadingStyles.extraSpaceOnLeft]}
         />
       </View>
-      <FlatList
-        initialNumToRender={5}
-        data={locationList}
-        renderItem={renderListItem}
-        showsVerticalScrollIndicator={false}
-        getItemLayout={getItemLayout}
-        keyExtractor={(item, index) => index?.toString()}
-      />
+      {isLoading ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <FlatList
+          initialNumToRender={5}
+          data={locationList}
+          renderItem={renderListItem}
+          showsVerticalScrollIndicator={false}
+          getItemLayout={getItemLayout}
+          keyExtractor={(item, index) => index?.toString()}
+          ListEmptyComponent={renderEmptyList}
+        />
+      )}
     </Modal>
   );
 };

@@ -1,5 +1,5 @@
 import React, {useContext, useMemo} from 'react';
-import {View, Text, Pressable, Alert} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import {HotelListItemProps} from '../types';
 import {HotelModuleStyles} from '../styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -26,8 +26,6 @@ const HotelListItem: React.FC<HotelListItemProps> = ({
       handleWishList('add', id);
     }
   };
-
-  // console.log(wishlist);
 
   return (
     <View style={HotelModuleStyles.listContainer}>

@@ -1,7 +1,4 @@
-export interface HotelListingProps {
-  deeplinkDate?: string;
-  deeplinkLocation?: string;
-}
+export interface HotelListingProps {}
 
 export interface HotelListItemProps {
   hotelName: string;

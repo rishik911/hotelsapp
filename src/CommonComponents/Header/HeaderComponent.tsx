@@ -11,7 +11,6 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
   subTitle = '',
   type = 'landing',
 }) => {
-  console.log(subTitle);
   return (
     <View style={HeaderStyles.container}>
       {showBackButton && (

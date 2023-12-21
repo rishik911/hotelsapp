@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useMemo} from 'react';
 import {LandingPageProps} from './types';
-import {Text, View} from 'react-native';
+import { View} from 'react-native';
 import {HEADER_NAMES, NAVIGATION_SCREENS} from '../../Utils/strings';
 import HeaderComponent from '../../CommonComponents/Header/HeaderComponent';
 
@@ -19,6 +19,8 @@ const LandingPage: React.FC<LandingPageProps> = (props, {}) => {
     location,
     updateLocationModal,
     updateDate,
+    isDateSelected,
+    handleDateSelectionState,
   } = useContext(AppContext);
 
   const validRange = useMemo(() => {
@@ -36,6 +38,11 @@ const LandingPage: React.FC<LandingPageProps> = (props, {}) => {
   const handleContinue = useCallback(() => {
     props.navigation.navigate(NAVIGATION_SCREENS.HOTEL_LISTING_PAGE);
   }, []);
+
+  const handleChange = e => {
+    !isDateSelected && handleDateSelectionState()
+  };
+
 
   return (
     <View style={{flex: 1}}>
@@ -73,6 +80,9 @@ const LandingPage: React.FC<LandingPageProps> = (props, {}) => {
         date={date}
         validRange={validRange}
         onConfirm={updateDate}
+        saveLabelDisabled={!isDateSelected}
+        presentationStyle="pageSheet"
+        onChange={handleChange}
       />
     </View>
   );

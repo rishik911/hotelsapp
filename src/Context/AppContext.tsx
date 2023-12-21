@@ -14,6 +14,10 @@ const AppProvider: React.FC<AppContextProps> = ({children}) => {
   const [showDatePicker, setDatePicker] = useState(false);
   const [hotelList, setHotelList] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [isError, setError] = useState(false);
+  const [isEndReached, setEndReached] = useState(false);
+  const [isDateSelected, setDateSelected] = useState(false);
 
   const limit = useRef(4);
 
@@ -25,6 +29,9 @@ const AppProvider: React.FC<AppContextProps> = ({children}) => {
 
   const updateLocationModal = () => {
     setShowLocationModal(prev => !prev);
+    setError(false);
+    setLoading(false);
+    setLocationList([]);
   };
 
   const handleLocationAutoComplete = (value: string) => {
@@ -32,9 +39,15 @@ const AppProvider: React.FC<AppContextProps> = ({children}) => {
       `${BASE_URL}/${ENDPOINTS.AUTOCOMPLETE_LOCATION}${encodeURI(value)}`,
     )
       .then(respData => {
+        setLoading(false);
         setLocationList(respData?.cities || []);
+        if (typeof respData === 'string') {
+          setError(true);
+        }
       })
-      .catch(e => {});
+      .catch(e => {
+        setError(true);
+      });
   };
 
   const debounceFn = useCallback(
@@ -43,18 +56,21 @@ const AppProvider: React.FC<AppContextProps> = ({children}) => {
   );
 
   const updateLocation = (value: string) => {
+    setLoading(true);
+    isError && setError(false);
     setLocation(value);
     debounceFn(value);
   };
 
-  const selectLocationUpdate = (area: string) => {
+  const selectLocationUpdate = (area: string, isModalVisible = true) => {
     setLocation(area);
-    updateLocationModal();
+    isModalVisible && updateLocationModal();
   };
 
   const updateDate = (data: any) => {
     setDate(data?.date);
     handleDatePicker();
+    setDateSelected(false);
   };
 
   const handleDatePicker = () => {
@@ -69,8 +85,13 @@ const AppProvider: React.FC<AppContextProps> = ({children}) => {
     )
       .then(respData => {
         setHotelList(respData?.hotels || []);
+
+        if (respData?.hotels?.length === hotelList?.length) {
+          setEndReached(true);
+        }
+        if (typeof respData === 'string') setError(true);
       })
-      .catch(e => {});
+      .catch(e => setError(true));
   };
 
   const handleAdditionToWishList = (id: string) => {
@@ -104,6 +125,12 @@ const AppProvider: React.FC<AppContextProps> = ({children}) => {
   const resetListValues = () => {
     setHotelList([]);
     limit.current = 10;
+    setError(false);
+    setEndReached(false);
+  };
+
+  const handleDateSelectionState = () => {
+    setDateSelected(true);
   };
 
   return (
@@ -125,6 +152,11 @@ const AppProvider: React.FC<AppContextProps> = ({children}) => {
         handleWishList,
         makePaginatedCall,
         resetListValues,
+        isLoading,
+        isError,
+        isEndReached,
+        isDateSelected,
+        handleDateSelectionState,
       }}>
       {children}
     </AppContext.Provider>

@@ -1,11 +1,14 @@
-import {NAVIGATION_SCREENS} from '../Utils/strings';
-
 export const linking = {
-  prefixes: ['hoteslApp://'],
+  prefixes: ['hotelsApp://'],
+
   config: {
     screens: {
-      landing_page: 'landing',
-      hotel_listing_page: 'hotel-listing/:deeplinkLocation/:deeplinkDate',
+      landing_page: {
+        path: 'landing',
+      },
+      hotel_listing_page: {
+        path: 'hotel-listing/:location/:date',
+      },
     },
   },
 };
